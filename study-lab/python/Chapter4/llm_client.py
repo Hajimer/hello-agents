@@ -46,6 +46,8 @@ class HelloAgentsLLM:
     ) -> str:
         """调用模型，并返回完整的文本回复。"""
         print(f"🧠 正在调用 {self.model} 模型...")
+        for message in messages:
+            print(message)
 
         try:
             response = self.client.chat.completions.create(
