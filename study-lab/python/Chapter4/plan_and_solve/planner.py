@@ -1,6 +1,5 @@
 import ast
 
-from llm_client import HelloAgentsLLM
 from plan_and_solve.prompt import PLANNER_PROMPT_TEMPLATE
 
 class Planner:
@@ -24,10 +23,11 @@ class Planner:
 
         # Parse the list string output by LLM
         try:
-            # Find content between ```python and ```
+            # 按 Prompt 约定提取 ```python 与 ``` 之间的列表文本，并去掉两端空白。
             plan_str = response_text.split("```python")[1].split("```")[0].strip()
-            # 使用ast.literal_eval来安全地执行字符串，将其转换为Python列表
+            # 将列表字符串解析为 Python 对象，不执行任意 Python 代码。
             plan = ast.literal_eval(plan_str)
+            # 确认结果是列表。
             return plan if isinstance(plan, list) else []
         except (ValueError, SyntaxError, IndexError) as e:
             print(f"❌ 解析计划时出错: {e}")
