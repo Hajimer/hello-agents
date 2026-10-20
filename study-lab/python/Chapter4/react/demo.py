@@ -6,6 +6,7 @@ from dotenv import load_dotenv
 
 from llm_client import HelloAgentsLLM
 from tools.search_tool import search
+from tools.calculate_tool import calculate
 from tools.tool_executor import ToolExecutor
 from react.agent import ReActAgent
 
@@ -21,5 +22,10 @@ if __name__ == "__main__":
         search,
     )
 
+    # 习题3. 注册计算器工具
+    calculate_description = "计算器工具 计算字符串表达式，支持整数、浮点数、+、-、*、/、括号和正负号。例如：(123 + 456) * 789 / 12。输入不包含 = 或 ?。"
+    tool_executor.registerTool("Calculate", calculate_description, calculate)
+
     agent = ReActAgent(llm_client, tool_executor)
-    agent.run("华为最新的手机是哪一款？它的主要卖点是什么？")
+    # agent.run("华为最新的手机是哪一款？它的主要卖点是什么？")
+    agent.run("计算 (123 + 456) × 789/ 12 = ? 的结果")
