@@ -180,7 +180,7 @@ class MySimpleAgent(SimpleAgent):
             else:
                 # Single parameter: key=value
                 key, value = parameters.split('=', 1)
-                param_dict[key] = value.strip()
+                param_dict[key.strip()] = value.strip()
         else:
             # Directly pass parameters, intelligently infer based on tool type
             if tool_name == 'search':
@@ -188,7 +188,7 @@ class MySimpleAgent(SimpleAgent):
             elif tool_name == 'memory':
                 param_dict = {'action': 'search', 'query': parameters}
             else:
-                param_dict = {'input', parameters}
+                param_dict = {'input': parameters}
 
         return param_dict
 
@@ -234,7 +234,7 @@ class MySimpleAgent(SimpleAgent):
 
     def has_tools(self) -> bool:
         """Check if tools are available"""
-        return self.enable_tool_calling and self.tool_registry
+        return self.enable_tool_calling and self.tool_registry is not None
 
     def remove_tool(self, tool_name: str) -> bool:
         """Remove tool (convenience method)"""
