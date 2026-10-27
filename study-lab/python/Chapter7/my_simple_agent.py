@@ -148,7 +148,10 @@ class MySimpleAgent(SimpleAgent):
 
         try:
             # Intelligent parameter parsing
-            if tool_name == 'calculator':
+            if self.tool_registry.get_function(tool_name) is not None:
+                # 函数工具接收原始字符串，由注册表负责调用。
+                result = self.tool_registry.execute_tool(tool_name, parameters)
+            elif tool_name == 'calculator':
                 # Calculator tool directly passes expression
                 result = self.tool_registry.execute_tool(tool_name, parameters)
             else:
